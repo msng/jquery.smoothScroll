@@ -362,6 +362,11 @@ Full-Width Styles
 
 #main_content {
   padding-top: 40px;
+
+}
+
+#main_content, #main_content h3, #main_content a, #main_content code {
+  color: #BBB;
 }
 
 #footer_wrap {
@@ -422,4 +427,9 @@ Small Device Styles
     font-size: 11px;
   }
 
+}
+
+.standout {
+  font-size: 24px;
+  font-weight: bold;
 }
