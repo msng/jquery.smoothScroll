@@ -15,36 +15,51 @@
 
     $.fn.smoothScroll = function (options) {
         // Merge defaults to options
-        var settings = $.extend(true, {}, $.fn.smoothScroll.defaults, options);
+        var settings = $.smoothScroll.getSettings(options);
 
         return this.each(function (index) {
             var selector = $(this).attr(settings.selectorAttribute);
+
             if (selector && (!settings.hashOnly || selector.match(/^#.+/))) {
                 $(this).on(settings.events + '.smoothScroll.' + index, function () {
-                    $(window).scrollTop($(window).scrollTop() + 1);
-
-                    var scrollElement = $('html');
-                    if (scrollElement.scrollTop() <= 0) {
-                        scrollElement = $('body');
-                    }
-
-                    scrollElement.animate({
-                        scrollTop: $(selector).offset().top - settings.offset
-                    }, settings.speed, settings.easing);
-
-                    return false;
+                    return $.smoothScroll.to(selector, options);
                 });
             }
         });
     };
 
-    // Default setting values
-    $.fn.smoothScroll.defaults = {
-        events: 'click',
-        speed: 300,
-        easing: 'linear',
-        offset: 0,
-        selectorAttribute: 'href',
-        hashOnly: true
+    $.smoothScroll = {
+        to: function(selector, options) {
+            var settings = this.getSettings(options);
+
+            $(window).scrollTop($(window).scrollTop() + 1);
+
+            var scrollElement = $('html');
+
+            if (scrollElement.scrollTop() <= 0) {
+                scrollElement = $('body');
+            }
+
+            scrollElement.animate({
+                scrollTop: $(selector).offset().top - settings.offset
+            }, settings.speed, settings.easing);
+
+            return false;
+        },
+
+        // Default setting values
+        defaults: {
+            events: 'click',
+            speed: 300,
+            easing: 'linear',
+            offset: 0,
+            selectorAttribute: 'href',
+            hashOnly: true
+        },
+
+        getSettings: function(options) {
+            return $.extend(true, {}, this.defaults, options);
+        }
     };
+
 })(jQuery);
