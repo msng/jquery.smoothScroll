@@ -42,7 +42,7 @@
 
             scrollElement.animate({
                 scrollTop: $(selector).offset().top - settings.offset
-            }, settings.speed, settings.easing);
+            }, settings.speed, settings.easing, settings.callback);
 
             return false;
         },
@@ -54,7 +54,8 @@
             easing: 'linear',
             offset: 0,
             selectorAttribute: 'href',
-            hashOnly: true
+            hashOnly: true,
+            callback: function() {}
         },
 
         getSettings: function(options) {
